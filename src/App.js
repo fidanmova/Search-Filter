@@ -1,23 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+// go to mockaroo.com for fake data, change format to JSON, download the data and add the downloaded page to React app.
+import JSONDATA from "./MOCK_DATA (1).json";
+import { useState } from "react";
 
 function App() {
+  const [searchTerm, setSearchTerm] = useState("");
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <input
+        type="text"
+        placeholder="Search..."
+        onChange={(event) => {
+          setSearchTerm(event.target.value);
+        }}
+      />
+
+      {JSONDATA.filter((val) => {
+        if (searchTerm === "") {
+          return val;
+        } else if (
+          val.first_name
+            .toLocaleLowerCase()
+            .includes(searchTerm.toLocaleLowerCase())
+        ) {
+          return val;
+        }
+      }).map((val, key) => {
+        return (
+          <div className="user" key={key}>
+            <p>{val.first_name} </p>
+          </div>
+        );
+      })}
     </div>
   );
 }
